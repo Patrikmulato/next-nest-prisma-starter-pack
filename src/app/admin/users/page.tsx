@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth/AuthProvider';
 import { listUsers, deleteUserById } from '@/lib/api/users';
 import type { User } from '@/types/user';
@@ -21,23 +21,26 @@ export default function AdminUsersPage() {
     }
   }, [status, isAdmin, router]);
 
-  const fetchUsers = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await listUsers();
-      setUsers(data);
-    } catch {
-      setError('Failed to load users.');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    if (status === 'authenticated' && isAdmin) {
-      void fetchUsers();
-    }
-  }, [status, isAdmin, fetchUsers]);
+    if (status !== 'authenticated' || !isAdmin) return;
+
+    let cancelled = false;
+
+    listUsers()
+      .then((data) => {
+        if (!cancelled) setUsers(data);
+      })
+      .catch(() => {
+        if (!cancelled) setError('Failed to load users.');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [status, isAdmin]);
 
   async function handleDelete(id: string) {
     if (!confirm('Delete this user?')) return;
