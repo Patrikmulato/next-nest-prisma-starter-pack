@@ -25,24 +25,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.leaflet-container {
-  background: #181c22 !important;
-}
-
-.map-tooltip {
-  background: rgba(192, 192, 192, 0.95) !important;
-  color: #171717 !important;
-  border: 1px solid #3f3f46 !important;
-  border-radius: 6px !important;
-  padding: 6px 10px !important;
-  font-size: 13px !important;
-  line-height: 1.4 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
-}
-
-.map-tooltip::before {
-  border-top-color: #3f3f46 !important;
-}
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -60,17 +42,4 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #52525b;
-}
-
-.leaflet-tooltip.us-state-label {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  color: #94a3b8;
-  font-size: 8px;
-  font-weight: 600;
-  text-shadow: 0 1px 2px #000;
-  pointer-events: none;
-  white-space: nowrap;
-  padding: 0;
 }

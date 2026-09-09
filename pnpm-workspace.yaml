@@ -12,7 +12,6 @@ allowBuilds:
   '@scarf/scarf': false
   esbuild: true
   prisma: true
-  puppeteer: true
   sharp: true
   unrs-resolver: true
 overrides:

@@ -9,83 +9,17 @@ datasource db {
 
 enum UserRole {
   USER
-  CREATOR
   ADMIN
 }
 
 model User {
-  id                 String          @id @default(cuid())
-  email              String          @unique
-  passwordHash       String?
-  role               UserRole        @default(USER)
-  refreshTokenHash   String?
-  savedFilters       SavedFilter[]
-  filterHistory      FilterHistory[]
-  uploadedUsefulMaps UsefulMap[]
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime        @updatedAt
+  id               String   @id @default(cuid())
+  email            String   @unique
+  passwordHash     String?
+  role             UserRole @default(USER)
+  refreshTokenHash String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@index([role])
-}
-
-model SavedFilter {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name        String
-  description String?
-  filters     Json
-  isPublic    Boolean  @default(false)
-  views       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([userId, isPublic])
-  @@index([isPublic, views(sort: Desc)])
-}
-
-model FilterHistory {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  filters     Json
-  resultCount Int
-  createdAt   DateTime @default(now())
-
-  @@index([userId, createdAt(sort: Desc)])
-}
-
-model Country {
-  id        String   @id @default(cuid())
-  code      String   @unique
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model UsefulMapCategory {
-  id         String      @id @default(cuid())
-  slug       String      @unique
-  label      String      @unique
-  usefulMaps UsefulMap[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-}
-
-model UsefulMap {
-  id           String            @id @default(cuid())
-  title        String
-  categoryId   String
-  category     UsefulMapCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  imageUrl     String
-  blobPathname String            @unique
-  mimeType     String
-  sizeBytes    Int
-  uploadedById String
-  uploadedBy   User              @relation(fields: [uploadedById], references: [id], onDelete: Restrict)
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-
-  @@index([categoryId, createdAt(sort: Desc)])
-  @@index([uploadedById, createdAt(sort: Desc)])
 }
