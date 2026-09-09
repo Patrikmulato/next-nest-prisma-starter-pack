@@ -1,0 +1,22 @@
+packages:
+  - .
+  - backend
+publicHoistPattern:
+  - '@prisma/*'
+  - 'prisma'
+  - 'jsonwebtoken'
+  - '@types/jsonwebtoken'
+allowBuilds:
+  '@nestjs/core': true
+  '@prisma/engines': true
+  '@scarf/scarf': false
+  esbuild: true
+  prisma: true
+  puppeteer: true
+  sharp: true
+  unrs-resolver: true
+overrides:
+  js-yaml: 4.3.1
+  '@hono/node-server': 2.1.1
+minimumReleaseAgeExclude:
+  - tsx@4.23.4

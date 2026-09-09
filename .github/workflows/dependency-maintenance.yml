@@ -1,0 +1,50 @@
+name: Dependency Maintenance
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 1'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: read
+
+jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Check outdated dependencies
+        run: |
+          pnpm outdated -r --format json > outdated.json || true
+          node -e "const fs=require('fs'); const raw=fs.readFileSync('outdated.json','utf8').trim(); const data=raw ? JSON.parse(raw) : {}; const entries=Object.entries(data); const lines=['## Outdated Dependencies', '']; if (entries.length===0) { lines.push('No outdated dependencies found.'); } else { lines.push('| Package | Current | Latest | Dependency Type | Project |'); lines.push('| --- | --- | --- | --- | --- |'); for (const [project, deps] of entries) { for (const dep of deps) { lines.push(`| ${dep.packageName} | ${dep.currentVersion} | ${dep.latestVersion} | ${dep.dependencyType} | ${project} |`); } } } fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');"
+
+      - name: Audit production dependencies
+        run: |
+          pnpm audit --prod --audit-level moderate --json > audit.json || true
+          node -e "const fs=require('fs'); const raw=fs.readFileSync('audit.json','utf8').trim(); const lines=['## Production Audit', '']; if (!raw) { lines.push('No audit output produced.'); } else { let parsed; try { parsed=JSON.parse(raw); } catch { parsed=null; } const vulnerabilities=parsed?.metadata?.vulnerabilities; if (!vulnerabilities) { lines.push('No production vulnerabilities reported.'); } else { lines.push(`low: ${vulnerabilities.low ?? 0}`); lines.push(`moderate: ${vulnerabilities.moderate ?? 0}`); lines.push(`high: ${vulnerabilities.high ?? 0}`); lines.push(`critical: ${vulnerabilities.critical ?? 0}`); } } fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');"
+
+      - name: Upload dependency reports
+        uses: actions/upload-artifact@v7
+        with:
+          name: dependency-maintenance-reports
+          path: |
+            outdated.json
+            audit.json

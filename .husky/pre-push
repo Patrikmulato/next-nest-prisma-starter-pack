@@ -1,0 +1,29 @@
+set -e
+
+echo "Running pre-push checks..."
+
+echo "Linting..."
+pnpm lint
+
+echo "Checking formatting..."
+pnpm format:check
+
+echo "Type checking backend..."
+pnpm --filter geoguessr-helper-backend exec tsc --noEmit
+
+echo "Building backend..."
+pnpm --filter geoguessr-helper-backend build
+
+echo "Testing backend..."
+pnpm --filter geoguessr-helper-backend test
+
+echo "Testing frontend..."
+pnpm test:coverage
+
+echo "Building frontend..."
+pnpm build
+
+echo "Type checking frontend..."
+npx tsc --noEmit
+
+echo "All pre-push checks passed!"

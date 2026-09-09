@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint frontend
+        run: pnpm lint
+
+      - name: Check formatting
+        run: pnpm format:check
+
+      - name: Type check frontend
+        run: pnpm typecheck
+
+      - name: Generate Prisma client (backend)
+        run: pnpm --filter geoguessr-helper-backend prisma:generate
+
+      - name: Validate Prisma schema (backend)
+        run: pnpm --filter geoguessr-helper-backend exec prisma validate
+
+      - name: Type check backend
+        run: pnpm --filter geoguessr-helper-backend exec tsc --noEmit
+
+      - name: Build backend
+        run: pnpm --filter geoguessr-helper-backend build
+
+      - name: Test backend
+        run: pnpm --filter geoguessr-helper-backend test
+
+      - name: Hardening policy checks
+        run: pnpm --filter geoguessr-helper-backend hardening:check
+
+      - name: Test frontend
+        run: pnpm test:coverage
+
+      - name: Build frontend
+        run: pnpm build
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage/lcov.info
+          flags: frontend
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v42
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          github-token: ${{ secrets.GITHUB_TOKEN }}

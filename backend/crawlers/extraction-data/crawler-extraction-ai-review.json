@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-06-02T16:59:35.296Z",
+  "confidence_threshold": 0.7,
+  "summary_by_field": {
+    "roadLines": {
+      "extracted": 1,
+      "above_threshold": 1,
+      "total_confidence": 0.92,
+      "avg_confidence": 0.92
+    },
+    "carColor": {
+      "extracted": 1,
+      "above_threshold": 1,
+      "total_confidence": 0.95,
+      "avg_confidence": 0.95
+    },
+    "cameraGen": {
+      "extracted": 0,
+      "above_threshold": 0,
+      "total_confidence": 0,
+      "avg_confidence": 0
+    },
+    "coverageYears": {
+      "extracted": 1,
+      "above_threshold": 1,
+      "total_confidence": 0.85,
+      "avg_confidence": 0.85
+    },
+    "vehicleType": {
+      "extracted": 1,
+      "above_threshold": 1,
+      "total_confidence": 0.95,
+      "avg_confidence": 0.95
+    }
+  },
+  "countries": [
+    {
+      "country": "Namibia",
+      "slug": "namibia",
+      "extractionError": null,
+      "confidences": {
+        "roadLines": 0.92,
+        "carColor": 0.95,
+        "cameraGen": 0,
+        "coverageYears": 0.85,
+        "vehicleType": 0.95
+      },
+      "below_threshold": []
+    }
+  ]
+}

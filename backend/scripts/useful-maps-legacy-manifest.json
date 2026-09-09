@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Australia License Plates",
+    "categorySlug": "license-plates",
+    "blobPathname": "useful-maps/license-plates/aus-license-plates.png",
+    "imageUrl": "/useful-maps/aus_license_plates.png",
+    "sourceFilePath": "public/useful-maps/aus_license_plates.png",
+    "mimeType": "image/png"
+  },
+  {
+    "title": "Brazil Phone Clue",
+    "categorySlug": "meta-clues",
+    "blobPathname": "useful-maps/meta-clues/brazil-phone.png",
+    "imageUrl": "/useful-maps/brazil_phone.png",
+    "sourceFilePath": "public/useful-maps/brazil_phone.png",
+    "mimeType": "image/png"
+  },
+  {
+    "title": "EU Bollards",
+    "categorySlug": "bollards",
+    "blobPathname": "useful-maps/bollards/eu-bollards.webp",
+    "imageUrl": "/useful-maps/eu-bollards.webp",
+    "sourceFilePath": "public/useful-maps/eu-bollards.webp",
+    "mimeType": "image/webp"
+  },
+  {
+    "title": "EU Chevrons",
+    "categorySlug": "road-signs",
+    "blobPathname": "useful-maps/road-signs/eu-chevrons.png",
+    "imageUrl": "/useful-maps/eu-chevrons.png",
+    "sourceFilePath": "public/useful-maps/eu-chevrons.png",
+    "mimeType": "image/png"
+  },
+  {
+    "title": "EU Signs",
+    "categorySlug": "road-signs",
+    "blobPathname": "useful-maps/road-signs/eu-signs.webp",
+    "imageUrl": "/useful-maps/eu-signs.webp",
+    "sourceFilePath": "public/useful-maps/eu-signs.webp",
+    "mimeType": "image/webp"
+  },
+  {
+    "title": "Japan Clues",
+    "categorySlug": "general",
+    "blobPathname": "useful-maps/general/japan.png",
+    "imageUrl": "/useful-maps/japan.png",
+    "sourceFilePath": "public/useful-maps/japan.png",
+    "mimeType": "image/png"
+  },
+  {
+    "title": "Pedestrian Sign Clue",
+    "categorySlug": "meta-clues",
+    "blobPathname": "useful-maps/meta-clues/pedestrian.png",
+    "imageUrl": "/useful-maps/pedestrian.png",
+    "sourceFilePath": "public/useful-maps/pedestrian.png",
+    "mimeType": "image/png"
+  },
+  {
+    "title": "US License Plates",
+    "categorySlug": "license-plates",
+    "blobPathname": "useful-maps/license-plates/us-license.png",
+    "imageUrl": "/useful-maps/us-license.png",
+    "sourceFilePath": "public/useful-maps/us-license.png",
+    "mimeType": "image/png"
+  },
+  {
+    "title": "US Tricks",
+    "categorySlug": "general",
+    "blobPathname": "useful-maps/general/us-tricks.jpg",
+    "imageUrl": "/useful-maps/us-tricks.jpg",
+    "sourceFilePath": "public/useful-maps/us-tricks.jpg",
+    "mimeType": "image/jpeg"
+  }
+]

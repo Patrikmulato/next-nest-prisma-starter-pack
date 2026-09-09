@@ -1,0 +1,74 @@
+{
+  "name": "geoguessr-helper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "dev": "next dev",
+    "dev:backend": "pnpm --filter geoguessr-helper-backend dev",
+    "dev:all": "concurrently --kill-others-on-fail -n frontend,backend -c cyan,yellow \"next dev\" \"pnpm --filter geoguessr-helper-backend dev\"",
+    "build": "next build",
+    "build:backend": "pnpm sync:data:pull && pnpm --filter geoguessr-helper-backend build",
+    "sync:data": "pnpm --filter geoguessr-helper-backend sync:data",
+    "sync:data:pull": "pnpm --filter geoguessr-helper-backend sync:data:pull",
+    "start": "next start",
+    "lint": "eslint . --max-warnings=0",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:backend": "pnpm --filter geoguessr-helper-backend test",
+    "ci": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm --filter geoguessr-helper-backend build && pnpm --filter geoguessr-helper-backend test && pnpm build"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.6.1",
+    "leaflet": "1.9.4",
+    "next": "16.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-leaflet": "5.0.0",
+    "react-zoom-pan-pinch": "^4.0.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.2.2",
+    "@commitlint/config-conventional": "21.2.2",
+    "@tailwindcss/postcss": "4.3.3",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.4",
+    "@types/jest": "30.0.0",
+    "@types/leaflet": "1.9.22",
+    "@types/node": "25.9.5",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "codecov": "3.8.3",
+    "concurrently": "^10.0.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.1",
+    "husky": "9.1.7",
+    "jest": "30.4.2",
+    "jest-environment-jsdom": "30.4.1",
+    "lint-staged": "17.3.0",
+    "prettier": "3.9.6",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "node ./scripts/lint-staged-tsc.js",
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --no-ignore",
+      "prettier --write"
+    ],
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "jest --bail --findRelatedTests --passWithNoTests"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  }
+}
