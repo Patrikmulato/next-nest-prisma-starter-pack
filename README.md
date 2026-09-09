@@ -25,33 +25,33 @@ pnpm dev:backend  # NestJS on http://localhost:3001
 
 ## Common Commands
 
-| Command                  | Purpose                        |
-| ------------------------ | ------------------------------ |
-| `pnpm dev`               | Start Next.js dev server       |
-| `pnpm dev:backend`       | Start NestJS backend           |
-| `pnpm build`             | Build frontend                 |
-| `pnpm build:backend`     | Build backend                  |
-| `pnpm test`              | Run frontend tests             |
-| `pnpm test:coverage`     | Frontend tests with coverage   |
-| `pnpm test:backend`      | Run backend tests              |
-| `pnpm lint`              | Lint frontend                  |
-| `pnpm format`            | Format all files with Prettier |
-| `pnpm format:check`      | Check formatting without write |
-| `pnpm typecheck`         | TypeScript type check          |
+| Command              | Purpose                        |
+| -------------------- | ------------------------------ |
+| `pnpm dev`           | Start Next.js dev server       |
+| `pnpm dev:backend`   | Start NestJS backend           |
+| `pnpm build`         | Build frontend                 |
+| `pnpm build:backend` | Build backend                  |
+| `pnpm test`          | Run frontend tests             |
+| `pnpm test:coverage` | Frontend tests with coverage   |
+| `pnpm test:backend`  | Run backend tests              |
+| `pnpm lint`          | Lint frontend                  |
+| `pnpm format`        | Format all files with Prettier |
+| `pnpm format:check`  | Check formatting without write |
+| `pnpm typecheck`     | TypeScript type check          |
 
 ## Auth Endpoints
 
-| Method | Path                   | Purpose                                        |
-| ------ | ---------------------- | ---------------------------------------------- |
-| POST   | `/api/auth/register`   | Create account, return access token            |
-| POST   | `/api/auth/login`      | Authenticate, return access token              |
-| POST   | `/api/auth/refresh`    | Rotate session via HttpOnly refresh cookie     |
-| POST   | `/api/auth/logout`     | Clear refresh cookie and revoke session        |
-| GET    | `/api/auth/me`         | Return current user from Bearer token          |
-| GET    | `/api/users`           | (Admin) List all users                         |
-| DELETE | `/api/users/:id`       | (Admin) Delete a user                          |
-| GET    | `/api/health`          | Liveness check                                 |
-| GET    | `/api/health/ready`    | Readiness check with database verification     |
+| Method | Path                 | Purpose                                    |
+| ------ | -------------------- | ------------------------------------------ |
+| POST   | `/api/auth/register` | Create account, return access token        |
+| POST   | `/api/auth/login`    | Authenticate, return access token          |
+| POST   | `/api/auth/refresh`  | Rotate session via HttpOnly refresh cookie |
+| POST   | `/api/auth/logout`   | Clear refresh cookie and revoke session    |
+| GET    | `/api/auth/me`       | Return current user from Bearer token      |
+| GET    | `/api/users`         | (Admin) List all users                     |
+| DELETE | `/api/users/:id`     | (Admin) Delete a user                      |
+| GET    | `/api/health`        | Liveness check                             |
+| GET    | `/api/health/ready`  | Readiness check with database verification |
 
 ## Environment Variables
 

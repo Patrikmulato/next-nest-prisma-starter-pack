@@ -5,26 +5,14 @@
       "Bash(pnpm typecheck)",
       "Bash(pnpm lint*)",
       "Bash(pnpm build*)",
-      "Bash(pnpm --filter geoguessr-helper-backend test*)",
-      "Bash(pnpm --filter geoguessr-helper-backend build*)",
+      "Bash(pnpm --filter coach-patrik-backend test*)",
+      "Bash(pnpm --filter coach-patrik-backend build*)",
       "Bash(git status*)",
       "Bash(git diff*)",
       "Bash(git log*)",
       "Bash(git show*)",
       "Bash(find *)",
       "Bash(grep *)"
-    ]
-  },
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "if git -C \"$(git rev-parse --show-toplevel)\" status --porcelain | grep -q 'backend/crawlers/data/'; then echo 'WARNING: Uncommitted files detected in backend/crawlers/data/ — these are generated artifacts and must not be committed.'; fi"
-          }
-        ]
-      }
     ]
   },
   "enabledPlugins": {
