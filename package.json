@@ -16,6 +16,7 @@
     "start": "next start",
     "test:backend": "pnpm --filter coach-patrik-backend test",
     "lint": "eslint . --max-warnings=0",
+    "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "test": "jest",
