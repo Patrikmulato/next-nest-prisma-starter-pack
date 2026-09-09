@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm test*)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm lint*)",
+      "Bash(pnpm build*)",
+      "Bash(pnpm --filter geoguessr-helper-backend test*)",
+      "Bash(pnpm --filter geoguessr-helper-backend build*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git show*)",
+      "Bash(find *)",
+      "Bash(grep *)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if git -C \"$(git rev-parse --show-toplevel)\" status --porcelain | grep -q 'backend/crawlers/data/'; then echo 'WARNING: Uncommitted files detected in backend/crawlers/data/ — these are generated artifacts and must not be committed.'; fi"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "agent-sdk-dev@claude-plugins-official": true
+  }
+}

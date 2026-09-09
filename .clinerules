@@ -1,0 +1,104 @@
+# Cline Operating Rules
+
+## Read instructions first
+
+Before proposing or making changes:
+
+1. Read `AGENTS.md`.
+2. Read task-specific plans or requirements under `docs/superpowers/plans/` when relevant.
+3. Read nearby README files, tests, configuration, and implementation files for
+   the area being changed.
+4. Follow repository conventions instead of generic framework assumptions.
+
+`AGENTS.md` is the canonical repository instruction file.
+
+If instructions conflict or required behavior is unclear, stop and explain the
+conflict. Do not guess.
+
+## Scope control
+
+- Implement only the currently requested task or approved milestone.
+- Do not perform unrelated cleanup, refactors, dependency updates, formatting
+  sweeps, or architectural changes.
+- Reuse existing project patterns before adding abstractions or dependencies.
+- Keep changes minimal and backward-compatible unless a breaking change is
+  explicitly required.
+- Do not begin a later milestone or adjacent feature without explicit approval.
+
+## Plan before editing
+
+For multi-file, security-sensitive, API-contract, database, migration,
+authentication, authorization, upload, caching, or infrastructure work:
+
+1. Inspect the relevant implementation first.
+2. Identify affected files and existing patterns to reuse.
+3. State the intended implementation steps.
+4. State validation commands and known risks.
+5. Ask targeted questions if a requirement cannot be determined from repository
+   code and approved plans.
+
+Do not write code until requirements and repository conventions are clear.
+
+## Security
+
+- Never expose, print, log, commit, or include secrets in browser code.
+- Never reveal access tokens, JWTs, API keys, cookies, Blob tokens, upload
+  tickets, credentials, private environment values, or complete request headers.
+- Do not move server-only values into `NEXT_PUBLIC_*` variables.
+- Preserve existing authorization, ownership, validation, rate-limit, and
+  security boundaries.
+- Do not bypass security behavior to make a test or feature pass.
+
+## Dependencies and configuration
+
+Ask for approval before:
+
+- Installing, removing, or upgrading dependencies.
+- Changing package versions or lockfiles.
+- Changing environment files or environment variable configuration.
+- Changing build configuration, CI/CD, deployment configuration, auth
+  configuration, database configuration, or workspace configuration.
+
+Do not introduce a dependency if an established project dependency or native
+platform capability already meets the need.
+
+## Database and side effects
+
+Ask for approval before:
+
+- Creating, applying, or altering migrations.
+- Running seeders, import scripts, cleanup scripts, or destructive commands.
+- Mutating local databases.
+- Contacting remote services.
+- Modifying Blob/object storage.
+- Running deployment, production, publishing, or infrastructure commands.
+
+Never run production migrations, production deletes, deployments, package
+publishing, or remote-infrastructure commands without explicit approval.
+
+## Validation
+
+- Use commands from `AGENTS.md`, existing package scripts, CI configuration,
+  and nearby package documentation.
+- Run the smallest relevant check after each logical implementation slice.
+- Before completion, run appropriate tests and checks for the changed scope.
+- Do not claim validation passed unless it was run and its result is known.
+- If a check is skipped or blocked, state exactly which check and why.
+
+## Completion report
+
+At the end of a task, report:
+
+1. What changed.
+2. Files created, modified, or deleted.
+3. Validation commands run and their results.
+4. Known limitations, skipped checks, blockers, or recommended next steps.
+
+Stop after the report and wait for the next request.
+
+## Git safety
+
+- Do not commit, push, create branches, amend history, reset, rebase, stash, or
+  discard changes unless explicitly asked.
+- Do not overwrite or revert user-authored changes without explicit approval.
+- Before changing files, inspect `git status` when practical.

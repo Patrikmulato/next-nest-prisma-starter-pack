@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "generated_at": "2026-06-02T16:59:15.649Z",
+    "model": "haiku",
+    "confidence_threshold": 0.7,
+    "countries_total": 1,
+    "countries_processed": 1,
+    "countries_failed": 0
+  },
+  "countries": {
+    "Namibia": {
+      "slug": "namibia",
+      "roadLines": {
+        "values": ["yellow-white"],
+        "confidence": 0.92,
+        "reasoning": "Explicitly stated: 'Most roads in Namibia use single yellow outer lines and white centre lines.' Yellow-white pattern is the primary and repeated throughout the guide."
+      },
+      "carColor": {
+        "values": ["white"],
+        "confidence": 0.95,
+        "reasoning": "Explicitly stated: 'All the coverage in Namibia was taken with a white pickup truck with a short antenna on the front.' Vehicle color is unambiguously white."
+      },
+      "cameraGen": {
+        "values": [],
+        "confidence": 0,
+        "reasoning": "No camera generation (1, 2, 3, or 4) is explicitly mentioned in the guide text."
+      },
+      "coverageYears": {
+        "values": [2024],
+        "confidence": 0.85,
+        "reasoning": "Mentioned in context: 'The blurred car strongly correlates with a 2024 copyright.' This links 2024 to Street View coverage in Namibia."
+      },
+      "vehicleType": {
+        "values": ["truck"],
+        "confidence": 0.95,
+        "reasoning": "Explicitly stated: 'All the coverage in Namibia was taken with a white pickup truck with a short antenna on the front.' Pickup truck is a truck category vehicle."
+      },
+      "extractionError": null
+    }
+  }
+}
