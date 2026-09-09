@@ -10,14 +10,7 @@ import { PrismaModule } from './modules/prisma/prisma.module.js';
 import { UsersModule } from './modules/users/users.module.js';
 
 @Module({
-  imports: [
-    LoggerModule,
-    HealthModule,
-    PrismaModule,
-    UsersModule,
-    AuthModule,
-    RateLimitModule,
-  ],
+  imports: [LoggerModule, HealthModule, PrismaModule, UsersModule, AuthModule, RateLimitModule],
   providers: [{ provide: APP_GUARD, useClass: RateLimitGuard }],
 })
 export class AppModule implements NestModule {
