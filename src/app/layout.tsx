@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'GeoGuessr Helper',
-  description: 'Your companion tool for mastering GeoGuessr',
+  title: 'Coach Patrik',
+  description: 'Personal training programs and coaching by Patrik',
 };
 
 export default function RootLayout({

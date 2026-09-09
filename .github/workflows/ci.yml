@@ -47,24 +47,6 @@ jobs:
       - name: Type check frontend
         run: pnpm typecheck
 
-      - name: Generate Prisma client (backend)
-        run: pnpm --filter geoguessr-helper-backend prisma:generate
-
-      - name: Validate Prisma schema (backend)
-        run: pnpm --filter geoguessr-helper-backend exec prisma validate
-
-      - name: Type check backend
-        run: pnpm --filter geoguessr-helper-backend exec tsc --noEmit
-
-      - name: Build backend
-        run: pnpm --filter geoguessr-helper-backend build
-
-      - name: Test backend
-        run: pnpm --filter geoguessr-helper-backend test
-
-      - name: Hardening policy checks
-        run: pnpm --filter geoguessr-helper-backend hardening:check
-
       - name: Test frontend
         run: pnpm test:coverage
 

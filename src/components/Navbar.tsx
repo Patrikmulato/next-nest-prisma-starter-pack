@@ -6,10 +6,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/lib/auth/AuthProvider';
 
 const TABS = [
-  { label: 'Dashboard', href: '/dashboard', isAdminOnly: true },
-  { label: 'World Map', href: '/' },
-  { label: 'US Plates', href: '/us-plates' },
-  { label: 'Useful Maps', href: '/useful-maps' },
+  { label: 'Home', href: '/' },
+  { label: 'Members', href: '/members', authRequired: true },
+  { label: 'Admin', href: '/admin/users', isAdminOnly: true },
 ];
 
 export default function Navbar() {
@@ -36,7 +35,7 @@ export default function Navbar() {
   return (
     <div className="flex shrink-0 items-center justify-between border-b border-zinc-800 bg-[#181c22] px-4 py-2">
       <div className="flex items-center gap-2">
-        <span className="text-base font-bold text-white">GeoGuessr Helper</span>
+        <span className="text-base font-bold text-white">Coach Patrik</span>
         {status === 'authenticated' && role && (
           <div className="relative" ref={menuRef}>
             <button
@@ -69,9 +68,12 @@ export default function Navbar() {
         )}
       </div>
       <nav className="flex gap-1">
-        {TABS.map(({ label, href, isAdminOnly }) => {
+        {TABS.map(({ label, href, isAdminOnly, authRequired }) => {
           const isActive = pathname === href;
           if (isAdminOnly && !isAdmin) {
+            return null;
+          }
+          if (authRequired && status !== 'authenticated') {
             return null;
           }
           return isActive ? (
