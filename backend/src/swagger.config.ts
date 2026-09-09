@@ -16,7 +16,7 @@ function buildSwaggerUiHtml(): string {
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>GeoGuessr Helper API Docs</title>
+<title>Coach Patrik API Docs</title>
 <link rel="stylesheet" href="${SWAGGER_UI_CDN_BASE}/swagger-ui.css" />
 </head>
 <body style="margin:0">
@@ -42,8 +42,8 @@ export function setupSwagger(app: INestApplication): void {
   // across environments.
 
   const config = new DocumentBuilder()
-    .setTitle('GeoGuessr Helper API')
-    .setDescription('Backend API for map data, authentication, saved filters, and users.')
+    .setTitle('Coach Patrik API')
+    .setDescription('Backend API for authentication and user management.')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

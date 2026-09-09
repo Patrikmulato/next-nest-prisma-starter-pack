@@ -36,8 +36,6 @@ export class AuthController {
     const allowedOrigins = [
       'http://localhost:3000',
       'http://localhost:3001',
-      'https://geo-helpers.vercel.app',
-      'https://geo-helpers-backend.vercel.app',
       getAppConfig().corsOrigin,
       getAppConfig().frontendUrl,
     ].filter((origin): origin is string => Boolean(origin));

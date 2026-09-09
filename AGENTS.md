@@ -1,5 +1,3 @@
-<!-- BEGIN:nextjs-agent-rules -->
-
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Before changing Next.js application code, routing, caching, rendering behavior, middleware, metadata, image handling, request APIs, or configuration:
@@ -9,13 +7,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 3. Heed deprecation notices and follow repository conventions.
 4. Do not introduce legacy Pages Router patterns or deprecated APIs.
 
-<!-- END:nextjs-agent-rules -->
-
-# GeoGuessr Helper — Agent Instructions
+# Coach Patrik — Agent Instructions
 
 ## Project Overview
 
-A Next.js web app that helps players identify countries in GeoGuessr by visualizing geographic clues (driving side, road line markings, etc.) on an interactive Leaflet world map with filter toggles. The backend is the source of truth for map data, filtering, and auth — it must remain authoritative.
+A personal training website for Patrik. Clients can register, log in, and access a protected members area. Admins can manage users. The NestJS backend is the source of truth for authentication and user data — it must remain authoritative.
 
 ## Instruction Priority
 
@@ -37,7 +33,6 @@ If instructions conflict or the required behavior is ambiguous, stop and ask for
 
 - **Framework:** Next.js 16 (App Router) with TypeScript
 - **Styling:** Tailwind CSS v4 (via `@tailwindcss/postcss`)
-- **Map:** Leaflet + react-leaflet (loaded client-side via `next/dynamic` with `ssr: false`)
 - **Backend:** NestJS 11 API in `backend/`
 - **Database:** PostgreSQL via Prisma (`backend/prisma/schema.prisma`)
 - **Package manager:** pnpm workspace
@@ -48,73 +43,60 @@ If instructions conflict or the required behavior is ambiguous, stop and ask for
 ```
 src/
   app/              # Next.js App Router pages and layouts
-    layout.tsx      # Root layout
-    page.tsx        # Main page — full-screen map with filter bar
-    globals.css     # Global styles + Leaflet tooltip overrides
+    layout.tsx      # Root layout — wraps all pages with Navbar and AuthProvider
+    page.tsx        # Landing page — hero, about, services, contact sections
+    globals.css     # Global styles
+    login/page.tsx          # Login page
+    register/page.tsx       # Register page
+    members/page.tsx        # Protected members area (requires authentication)
+    members/[slug]/page.tsx # Protected member content pages
+    admin/users/page.tsx    # Admin-only user management
   components/       # Reusable React components
-    WorldMap.tsx    # Leaflet map component (client-only)
-    FilterDropdown.tsx  # Generic filter dropdown (grouped options, smart positioning)
+    Navbar.tsx          # Auth-aware navigation bar
+    AuthForm.tsx        # Reusable login/register form
+    FilterDropdown.tsx  # Generic viewport-aware dropdown
   config/           # App configuration (API base URL, env vars)
-  lib/api/          # API client + typed API wrappers
-  types/            # Shared TypeScript contracts for API payloads
+  lib/
+    api/            # API client + typed API wrappers (auth, users)
+    auth/           # Auth context (AuthProvider) — access token + refresh cookie
+  types/            # TypeScript contracts for API payloads
 backend/
-  crawlers/         # External guide scraping, consolidation, extraction, and merge scripts
   prisma/           # Prisma schema and migrations
-  scripts/          # One-off backend operational scripts
   src/
-    modules/        # NestJS feature modules: auth, data, health, saved-filters, users, prisma
+    modules/        # NestJS feature modules: auth, health, users, prisma
     common/         # Shared infra: cache, rate-limit, logger
   # see backend/CLAUDE.md for the full directory breakdown
 .claude/
-  commands/         # Project slash commands (see below)
   rules/            # Context-aware agent rules loaded by file glob
   settings.json     # Pre-allowed commands + hooks
-public/
-  countries.geo.json  # World boundaries source read by backend
 ```
-
-## Claude Commands
-
-Invoke these with `/command-name` in Claude Code:
-
-| Command         | Purpose                                                             |
-| --------------- | ------------------------------------------------------------------- |
-| `/crawl`        | Run the full 4-stage crawler pipeline                               |
-| `/sync-data`    | Sync GeoCarHelpDesk repo and regenerate `geo-car-helpdesk.ts`       |
-| `/add-country`  | Guided flow to add a new country across all data files              |
-| `/check-filter` | Verify backend DTO and frontend types are in sync for all 7 filters |
 
 ## Commands
 
-| Command                                                     | Purpose                                                        |
-| ----------------------------------------------------------- | -------------------------------------------------------------- |
-| `pnpm dev`                                                  | Start Next.js dev server                                       |
-| `pnpm dev:backend`                                          | Start NestJS backend                                           |
-| `pnpm build`                                                | Build frontend                                                 |
-| `pnpm build:backend`                                        | Build backend                                                  |
-| `pnpm test`                                                 | Run frontend tests                                             |
-| `pnpm test:coverage`                                        | Run frontend tests with coverage                               |
-| `pnpm --filter geoguessr-helper-backend test`               | Run backend tests                                              |
-| `pnpm --filter geoguessr-helper-backend crawl:guides`       | Scrape country guide data                                      |
-| `pnpm --filter geoguessr-helper-backend consolidate:guides` | Build consolidated crawler dataset                             |
-| `pnpm --filter geoguessr-helper-backend extract:guides`     | Generate structured extracted crawler data                     |
-| `pnpm --filter geoguessr-helper-backend merge:crawlers`     | Append missing extracted data into backend data files          |
-| `pnpm --filter geoguessr-helper-backend sync:data`          | Regenerate GeoCarHelpDesk data and reapply crawler append step |
-| `pnpm --filter geoguessr-helper-backend sync:carmeta`       | Fetch carmeta GitHub data and regenerate `car-meta-coords.ts`  |
+| Command                                              | Purpose                          |
+| ---------------------------------------------------- | -------------------------------- |
+| `pnpm dev`                                           | Start Next.js dev server         |
+| `pnpm dev:backend`                                   | Start NestJS backend             |
+| `pnpm build`                                         | Build frontend                   |
+| `pnpm build:backend`                                 | Build backend                    |
+| `pnpm test`                                          | Run frontend tests               |
+| `pnpm test:coverage`                                 | Run frontend tests with coverage |
+| `pnpm test:backend`                                  | Run backend tests                |
+| `pnpm --filter coach-patrik-backend hardening:check` | Run backend hardening checks     |
 
 ## CI/CD
 
 The project uses GitHub Actions for continuous integration. The CI workflow (`.github/workflows/ci.yml`) runs on pull requests and pushes to main, performing:
 
 - Dependency installation
-- Frontend linting
-- TypeScript type checking (frontend and backend)
-- Backend build and testing
+- Frontend linting and format checking
+- TypeScript type checking (frontend)
 - Frontend testing with coverage reporting
 - Frontend build
 - Coverage upload to Codecov
+- Deployment to Vercel (on push to main)
 
-All checks must pass for auto-merge to be enabled.
+All checks must pass for the build to deploy.
 
 ## Git Hooks (Husky)
 
@@ -138,7 +120,7 @@ Validates commit messages follow [Conventional Commits](https://www.conventional
 ```
 <type>(<scope>): <subject>
 
-Example: feat(filters): add new driving side filter
+Example: feat(members): add training guide content page
 ```
 
 Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`, `revert`
@@ -167,7 +149,7 @@ Prevents pushing code that doesn't compile or has failing tests.
 
 ## NestJS DTO Validation
 
-This build cannot rely on reflected `@Body()` metatype inference for the global `ValidationPipe` (see the `// The global ValidationPipe can't infer the @Body() metatype in this build` comments in `auth.controller.ts`, `data.controller.ts`, `saved-filters.controller.ts`, `users.controller.ts`). Every controller that validates a request DTO must instantiate a local `ValidationPipe` and pass the DTO class explicitly (`new ValidationPipe({ ... })` with the expected type) rather than assuming the global pipe infers it. Reuse this existing pattern instead of inventing a new one.
+This build cannot rely on reflected `@Body()` metatype inference for the global `ValidationPipe` (see the `// The global ValidationPipe can't infer the @Body() metatype in this build` comments in `auth.controller.ts` and `users.controller.ts`). Every controller that validates a request DTO must instantiate a local `ValidationPipe` and pass the DTO class explicitly (`new ValidationPipe({ ... })` with the expected type) rather than assuming the global pipe infers it. Reuse this existing pattern instead of inventing a new one.
 
 ## Security, Database, and External Side Effects
 
@@ -182,28 +164,15 @@ This build cannot rely on reflected `@Body()` metatype inference for the global 
 
 ## Key Conventions
 
-1. **Backend-owned data/filtering** — API is source of truth for map data and filter results:
-
-- `GET /api/data/geojson`
-- `GET /api/data/map`
-- `POST /api/data/filter`
-
-2. **Validation** — Filter payload validation is defined in `backend/src/modules/data/dto/filter-request.dto.ts`.
-3. **Tooltip ownership** — Tooltip HTML is composed server-side and delivered in `tooltipHtmlByCountry`.
-4. **Frontend responsibilities** — UI state, map rendering, and API orchestration only.
+1. **Backend-owned auth/user data** — API is source of truth for authentication and user management.
+2. **Protected routes** — Members area redirects to `/login` when unauthenticated; admin pages also redirect to `/` for non-admin users.
+3. **Auth pattern** — Access token in-memory in `AuthProvider`; refresh token in HttpOnly cookie. Never store tokens in `localStorage`.
+4. **Frontend responsibilities** — UI state, page rendering, and API orchestration only.
 5. **Styling** — Use Tailwind utility classes. Dark theme is the default. Custom CSS goes in `globals.css` only when Tailwind can't cover it.
-6. **Crawler outputs are generated artifacts** — Files under `backend/crawlers/data/` are local/generated and should not be committed.
-7. **GeoCarHelpDesk sync behavior** — `backend/src/data/geo-car-helpdesk.ts` is regenerated by `sync:data`; crawler-derived append-only data is reapplied automatically after every sync.
-8. **Carmeta sync behavior** — `backend/src/data/car-meta-coords.ts` is regenerated by `sync:carmeta`; it holds per-country car color coordinate samples (≤400 points, colorIdx 1–8) sourced from the carmeta GitHub repo. Do not hand-edit.
-9. **Crawler source config** — `crawl:guides` reads `GUIDE_SOURCE_BASE_URL` and optional `GUIDE_SOURCE_SITEMAP_URL`, `GUIDE_CRAWL_LIMIT`, and `GUIDE_CRAWL_DELAY_MS` from env.
 
 ## Do NOT
 
-- Bypass backend for map/filter data (frontend should call API wrappers in `src/lib/api/map-data.ts`)
-- Use Leaflet on the server — always gate behind `"use client"` and dynamic import
-- Install map tile providers that require API keys without asking first
-- Commit generated crawler output from `backend/crawlers/data/`
-- Hand-edit `backend/src/data/geo-car-helpdesk.ts` without considering that `sync:data` will regenerate it
-- Hand-edit `backend/src/data/car-meta-coords.ts` — `sync:carmeta` will regenerate it
+- Store access tokens or refresh tokens in `localStorage` or other frontend-readable storage
+- Bypass the backend for user data (frontend should call API wrappers in `src/lib/api/`)
 - Commit, push, create branches, amend history, rebase, reset, stash, or discard changes unless explicitly asked
 - Create, apply, or modify database migrations without explicit approval

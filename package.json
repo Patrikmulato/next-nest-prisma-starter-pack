@@ -10,8 +10,11 @@
   "scripts": {
     "prepare": "husky",
     "dev": "next dev",
+    "dev:backend": "pnpm --filter coach-patrik-backend dev",
     "build": "next build",
+    "build:backend": "pnpm --filter coach-patrik-backend build",
     "start": "next start",
+    "test:backend": "pnpm --filter coach-patrik-backend test",
     "lint": "eslint . --max-warnings=0",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",

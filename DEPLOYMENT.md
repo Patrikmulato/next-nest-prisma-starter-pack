@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide covers how to deploy GeoGuessr Helper to Vercel.
+This guide covers how to deploy Coach Patrik to Vercel.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ This guide covers how to deploy GeoGuessr Helper to Vercel.
 
 1. Go to [vercel.com/new](https://vercel.com/new)
 2. Select "Import Git Repository"
-3. Search for and select your `geoguessr-helper` repository
+3. Search for and select your `coach-patrik` repository
 4. Click "Import"
 
 ### 2. Configure Build Settings (Vercel Dashboard)
@@ -33,15 +33,8 @@ Verify in the Vercel dashboard:
 Go to your Vercel project → Settings → Environment Variables and add:
 
 ```
-NEXT_PUBLIC_API_BASE_URL=https://your-project.vercel.app/api
+NEXT_PUBLIC_API_BASE_URL=https://your-backend.vercel.app
 NODE_ENV=production
-```
-
-Optional for crawler tasks:
-
-```
-GUIDE_SOURCE_BASE_URL=<your-guide-source-url>
-GUIDE_SOURCE_SITEMAP_URL=<optional-sitemap-url>
 ```
 
 ### 4. (Optional) Enable Automatic Deployments via GitHub Actions
@@ -56,7 +49,7 @@ If you want automatic deployments on successful CI:
    - `VERCEL_ORG_ID`: Found in Vercel project settings
    - `VERCEL_PROJECT_ID`: Found in Vercel project settings
 
-The `.github/workflows/deploy-vercel.yml` workflow will then deploy automatically on pushes to `main`.
+The `.github/workflows/ci.yml` workflow will then deploy automatically on pushes to `main`.
 
 ## Deploying
 
@@ -71,7 +64,7 @@ The `.github/workflows/deploy-vercel.yml` workflow will then deploy automaticall
 
 1. Push code to GitHub
 2. CI workflow runs (see `.github/workflows/ci.yml`)
-3. On success, automatic deploy workflow runs (see `.github/workflows/deploy-vercel.yml`)
+3. On success, Vercel deploys automatically
 4. Vercel deploys the built artifacts
 
 ### Option C: Manual Trigger in Vercel Dashboard
@@ -82,10 +75,8 @@ The `.github/workflows/deploy-vercel.yml` workflow will then deploy automaticall
 ## URLs After Deployment
 
 - **Frontend**: `https://your-project.vercel.app`
-- **Backend API**: `https://your-project.vercel.app/api`
-- **GeoJSON**: `https://your-project.vercel.app/api/data/geojson`
-- **Map Data**: `https://your-project.vercel.app/api/data/map`
-- **Filter**: `https://your-project.vercel.app/api/data/filter`
+- **Backend API**: `https://your-backend.vercel.app/api`
+- **API Docs**: `https://your-backend.vercel.app/api/docs`
 
 ## Local Development with Vercel CLI (Optional)
 
@@ -102,21 +93,20 @@ vercel dev
 
 ### Build fails
 
-- Check that `pnpm build` works locally: `pnpm build && pnpm build:backend`
+- Check that `pnpm build` works locally
 - Check Vercel build logs in the dashboard for specific errors
 - Ensure all environment variables are set in Vercel
 
 ### API endpoints not working
 
-- Verify `NEXT_PUBLIC_API_BASE_URL` is set correctly
-- Check that the backend is being built and included in the deployment
+- Verify `NEXT_PUBLIC_API_BASE_URL` is set correctly in Vercel frontend project
+- Check that the backend is deployed and healthy (`/api/health`)
 - Look at Vercel function logs in the dashboard
 
 ### Performance issues
 
 - Check the Vercel Analytics dashboard
-- Verify that GeoJSON and map data are being cached properly
-- Consider using Vercel's KV Store for cache if needed
+- Consider using Upstash Redis for shared rate limiting and caching across instances
 
 ## Monitoring
 
@@ -146,15 +136,18 @@ Recommended:
   `admin@example.com,another-admin@example.com`. Matching users become `ADMIN`
   when they register or next log in.
 
+### CORS configuration
+
+Set these to allow your frontend to call the backend:
+
+- `CORS_ORIGIN`: your frontend's Vercel URL (e.g. `https://coach-patrik.vercel.app`)
+- `FRONTEND_URL`: same value
+
 ### Optional shared store (Upstash Redis)
 
 Upstash is **optional in production**. When it is not configured, the shared
 cache and rate limiter fall back to per-instance memory according to the outage
 policy (fail-open by default).
-
-Example free option:
-
-- Upstash Redis (free tier)
 
 To enable a shared store across serverless instances, add:
 
@@ -169,12 +162,11 @@ Outage policy (optional):
 Notes:
 
 - With `fail-open`, requests continue using per-instance memory when Upstash is
-  missing or unavailable. This is resilient but not shared across instances, so
-  limits/caches are enforced per-instance.
+  missing or unavailable.
 - With `fail-closed`, the app requires a healthy Upstash connection and rejects
   affected requests when it is missing or unavailable.
-- Serverless instances are stateless and can scale horizontally, so for strict
-  global rate limiting prefer a shared store with `fail-closed`.
+- Serverless instances are stateless, so for strict global rate limiting prefer a
+  shared store with `fail-closed`.
 - Keep `/api/health` available for runtime checks.
 
 ## Rolling Back
