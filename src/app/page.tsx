@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Coach Patrik — Personal Training',
+  title: 'Starter App',
   description:
-    'Work with Patrik to build strength, improve performance, and reach your fitness goals with personalized coaching.',
+    'A full-stack application starter with accounts, member content, and administration.',
 };
 
 export default function HomePage() {
@@ -13,24 +13,24 @@ export default function HomePage() {
       {/* Hero */}
       <section className="flex flex-col items-center justify-center gap-6 px-6 py-24 text-center">
         <h1 className="max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Train smarter. <span className="text-blue-400">Get results.</span>
+          Build what matters. <span className="text-blue-400">Start here.</span>
         </h1>
         <p className="max-w-xl text-lg text-zinc-400">
-          Personalized coaching programs built around your goals, schedule, and lifestyle. No
-          guesswork — just a clear plan and the support to follow it.
+          A flexible foundation for your next application, with account access, member content, and
+          administration ready to customize.
         </p>
         <div className="flex gap-4">
           <Link
             href="/register"
             className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
           >
-            Get started
+            Create account
           </Link>
           <Link
             href="#about"
             className="rounded-lg border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
           >
-            Learn more
+            Explore
           </Link>
         </div>
       </section>
@@ -38,11 +38,10 @@ export default function HomePage() {
       {/* About */}
       <section id="about" className="border-t border-zinc-800 px-6 py-20">
         <div className="mx-auto max-w-3xl">
-          <h2 className="mb-6 text-2xl font-bold text-white">About</h2>
+          <h2 className="mb-6 text-2xl font-bold text-white">About this project</h2>
           <p className="text-zinc-400">
-            Hi, I&apos;m Patrik — a certified personal trainer focused on strength training and
-            sustainable fitness. I work with clients at all levels to build programs that fit their
-            real life, not just their ideal one.
+            This starter brings together a Next.js frontend and a NestJS API with authentication,
+            protected member pages, and admin user management.
           </p>
         </div>
       </section>
@@ -50,24 +49,24 @@ export default function HomePage() {
       {/* Services */}
       <section className="border-t border-zinc-800 px-6 py-20">
         <div className="mx-auto max-w-3xl">
-          <h2 className="mb-10 text-2xl font-bold text-white">What I offer</h2>
+          <h2 className="mb-10 text-2xl font-bold text-white">Project areas</h2>
           <div className="grid gap-6 sm:grid-cols-2">
             {[
               {
-                title: 'Strength programs',
-                description: 'Progressive overload plans tailored to your level and equipment.',
+                title: 'Member content',
+                description: 'Create protected pages for signed-in users.',
               },
               {
-                title: 'Nutrition guidance',
-                description: 'Practical advice on fueling your training without obsessing over it.',
+                title: 'Authentication',
+                description: 'Register, sign in, and restore sessions securely.',
               },
               {
-                title: 'Check-ins & adjustments',
-                description: 'Regular reviews so your program evolves as you do.',
+                title: 'User administration',
+                description: 'Manage accounts through role-protected endpoints.',
               },
               {
-                title: 'Members area',
-                description: 'Exclusive content, resources, and guides for clients.',
+                title: 'API foundation',
+                description: 'Extend the backend with your own application modules.',
               },
             ].map(({ title, description }) => (
               <div key={title} className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
@@ -84,13 +83,13 @@ export default function HomePage() {
         <div className="mx-auto max-w-3xl">
           <h2 className="mb-4 text-2xl font-bold text-white">Get in touch</h2>
           <p className="mb-6 text-zinc-400">
-            Interested in working together? Reach out and I&apos;ll get back to you shortly.
+            Questions or feedback? Send a note to the project contact.
           </p>
           <a
-            href="mailto:patrik@example.com"
+            href="mailto:hello@example.com"
             className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
           >
-            Contact me
+            Contact
           </a>
         </div>
       </section>

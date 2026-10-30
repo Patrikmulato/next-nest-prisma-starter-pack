@@ -16,7 +16,7 @@ function buildSwaggerUiHtml(): string {
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Coach Patrik API Docs</title>
+<title>Starter API Docs</title>
 <link rel="stylesheet" href="${SWAGGER_UI_CDN_BASE}/swagger-ui.css" />
 </head>
 <body style="margin:0">
@@ -38,11 +38,10 @@ function buildSwaggerUiHtml(): string {
 }
 
 export function setupSwagger(app: INestApplication): void {
-  // API docs expose the full schema surface (auth, users, saved filters)
-  // across environments.
+  // API docs expose the authentication and user-management endpoints across environments.
 
   const config = new DocumentBuilder()
-    .setTitle('Coach Patrik API')
+    .setTitle('Starter API')
     .setDescription('Backend API for authentication and user management.')
     .setVersion('1.0')
     .addBearerAuth()

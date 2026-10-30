@@ -35,7 +35,7 @@ export default function Navbar() {
   return (
     <div className="flex shrink-0 items-center justify-between border-b border-zinc-800 bg-[#181c22] px-4 py-2">
       <div className="flex items-center gap-2">
-        <span className="text-base font-bold text-white">Coach Patrik</span>
+        <span className="text-base font-bold text-white">Starter App</span>
         {status === 'authenticated' && role && (
           <div className="relative" ref={menuRef}>
             <button

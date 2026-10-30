@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Coach Patrik',
-  description: 'Personal training programs and coaching by Patrik',
+  title: 'Starter App',
+  description: 'A full-stack application starter with account and member features.',
 };
 
 export default function RootLayout({

@@ -49,8 +49,8 @@ describe('auth constants', () => {
 
   it('uses SameSite=Lax outside production regardless of cross-site config', () => {
     process.env.NODE_ENV = 'development';
-    process.env.FRONTEND_URL = 'https://coach-patrik.vercel.app';
-    process.env.VERCEL_URL = 'coach-patrik-backend.vercel.app';
+    process.env.FRONTEND_URL = 'https://app.example.com';
+    process.env.VERCEL_URL = 'api.example.com';
 
     assert.equal(getRefreshTokenCookieOptions().sameSite, 'lax');
     assert.equal(getRefreshTokenCookieOptions().secure, false);
@@ -58,15 +58,15 @@ describe('auth constants', () => {
 
   it('uses SameSite=Lax in production when frontend and backend share a host', () => {
     process.env.NODE_ENV = 'production';
-    process.env.FRONTEND_URL = 'https://coach-patrik-backend.vercel.app';
-    process.env.VERCEL_URL = 'coach-patrik-backend.vercel.app';
+    process.env.FRONTEND_URL = 'https://api.example.com';
+    process.env.VERCEL_URL = 'api.example.com';
 
     assert.equal(getRefreshTokenCookieOptions().sameSite, 'lax');
   });
 
   it('uses SameSite=Lax in production when VERCEL_URL is unset (non-Vercel host)', () => {
     process.env.NODE_ENV = 'production';
-    process.env.FRONTEND_URL = 'https://coach-patrik.vercel.app';
+    process.env.FRONTEND_URL = 'https://app.example.com';
     delete process.env.VERCEL_URL;
 
     assert.equal(getRefreshTokenCookieOptions().sameSite, 'lax');
@@ -74,8 +74,8 @@ describe('auth constants', () => {
 
   it('uses SameSite=None + Secure in production when frontend and backend are cross-site', () => {
     process.env.NODE_ENV = 'production';
-    process.env.FRONTEND_URL = 'https://coach-patrik.vercel.app';
-    process.env.VERCEL_URL = 'coach-patrik-backend.vercel.app';
+    process.env.FRONTEND_URL = 'https://app.example.com';
+    process.env.VERCEL_URL = 'api.example.com';
 
     const options = getRefreshTokenCookieOptions();
     assert.equal(options.sameSite, 'none');

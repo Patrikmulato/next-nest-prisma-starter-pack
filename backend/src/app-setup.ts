@@ -7,14 +7,9 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor.
 import { getAppConfig } from './config/app.config.js';
 import { setupSwagger } from './swagger.config.js';
 
-// Matches this project's known Vercel preview deployments without trusting
-// arbitrary *.vercel.app origins, which would otherwise allow any
-// attacker-deployed site.
-const VERCEL_PREVIEW_ORIGINS = [/^https:\/\/coach-patrik-[a-z0-9-]+\.vercel\.app$/] as const;
-
 // Pure CORS origin check (exported for tests). A missing origin (curl,
 // same-origin server calls, mobile apps) is permitted; otherwise the origin must
-// be explicitly allow-listed or match this project's Vercel preview pattern.
+// be explicitly allow-listed.
 export function isOriginAllowed(
   origin: string | undefined,
   allowedOrigins: readonly string[]
@@ -22,10 +17,7 @@ export function isOriginAllowed(
   if (!origin) {
     return true;
   }
-  if (allowedOrigins.includes(origin)) {
-    return true;
-  }
-  return VERCEL_PREVIEW_ORIGINS.some((pattern) => pattern.test(origin));
+  return allowedOrigins.includes(origin);
 }
 
 type SetupOptions = {
@@ -41,7 +33,7 @@ export function setupApp(app: NestFastifyApplication, options: SetupOptions = {}
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   app.register(fastifyCookie as any);
 
-  // Build allowed origins - supports localhost, env vars, and Vercel preview deployments
+  // Build allowed origins from local development and explicit environment config.
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001',
@@ -49,7 +41,7 @@ export function setupApp(app: NestFastifyApplication, options: SetupOptions = {}
     appConfig.frontendUrl,
   ].filter((origin): origin is string => Boolean(origin));
 
-  // CORS configuration with dynamic Vercel preview support
+  // CORS configuration with explicit origin allowlisting.
   const corsOptions = {
     origin: (
       origin: string | undefined,

@@ -7,11 +7,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 3. Heed deprecation notices and follow repository conventions.
 4. Do not introduce legacy Pages Router patterns or deprecated APIs.
 
-# Coach Patrik — Agent Instructions
+# Full-Stack Starter — Agent Instructions
 
 ## Project Overview
 
-A personal training website for Patrik. Clients can register, log in, and access a protected members area. Admins can manage users. The NestJS backend is the source of truth for authentication and user data — it must remain authoritative.
+A full-stack application starter with registration, login, a protected members area, and admin user management. The NestJS backend is the source of truth for authentication and user data — it must remain authoritative.
 
 ## Instruction Priority
 
@@ -27,7 +27,7 @@ If instructions conflict or the required behavior is ambiguous, stop and ask for
 ## Requirements
 
 - **Node.js 22+** (`.nvmrc`, `.node-version`, `package.json` engines)
-- pnpm 10.10.0+
+- **pnpm 11.22.0** (pinned by the root `package.json` `packageManager` field)
 
 ## Tech Stack
 
@@ -73,20 +73,24 @@ backend/
 
 ## Commands
 
-| Command                                              | Purpose                          |
-| ---------------------------------------------------- | -------------------------------- |
-| `pnpm dev`                                           | Start Next.js dev server         |
-| `pnpm dev:backend`                                   | Start NestJS backend             |
-| `pnpm build`                                         | Build frontend                   |
-| `pnpm build:backend`                                 | Build backend                    |
-| `pnpm test`                                          | Run frontend tests               |
-| `pnpm test:coverage`                                 | Run frontend tests with coverage |
-| `pnpm test:backend`                                  | Run backend tests                |
-| `pnpm --filter coach-patrik-backend hardening:check` | Run backend hardening checks     |
+| Command                                                          | Purpose                                                 |
+| ---------------------------------------------------------------- | ------------------------------------------------------- |
+| `pnpm dev`                                                       | Start Next.js dev server                                |
+| `pnpm dev:backend`                                               | Start NestJS backend                                    |
+| `pnpm build`                                                     | Build frontend                                          |
+| `pnpm build:backend`                                             | Build backend                                           |
+| `pnpm test`                                                      | Run frontend tests                                      |
+| `pnpm test:coverage`                                             | Run frontend tests with coverage                        |
+| `pnpm test:backend`                                              | Run backend tests                                       |
+| `pnpm --filter next-nest-prisma-starter-backend hardening:check` | Run backend hardening checks                            |
+| `pnpm lint`                                                      | Lint the project                                        |
+| `pnpm format:check`                                              | Check formatting                                        |
+| `pnpm typecheck`                                                 | Type-check the frontend                                 |
+| `pnpm ci`                                                        | Run frontend lint, format, type, test, and build checks |
 
 ## CI/CD
 
-The project uses GitHub Actions for continuous integration. The CI workflow (`.github/workflows/ci.yml`) runs on pull requests and pushes to main, performing:
+The project uses GitHub Actions for continuous integration. The CI workflow (`.github/workflows/ci.yml`) runs on pull requests and pushes to main with Node.js 24, performing:
 
 - Dependency installation
 - Frontend linting and format checking
@@ -94,9 +98,9 @@ The project uses GitHub Actions for continuous integration. The CI workflow (`.g
 - Frontend testing with coverage reporting
 - Frontend build
 - Coverage upload to Codecov
-- Deployment to Vercel (on push to main)
+- Deployment to Vercel after validation on pushes to main
 
-All checks must pass for the build to deploy.
+The current CI workflow validates the frontend; it does not run backend tests or a backend build.
 
 ## Git Hooks (Husky)
 
@@ -104,12 +108,12 @@ The project uses Husky to enforce code quality, formatting, and testing at key g
 
 ### Pre-Commit Hook
 
-Runs on every commit attempt:
+Runs on every commit attempt through `pnpm lint-staged`:
 
-1. **TypeScript type checking** on `.ts`/`.tsx` files (`tsc --noEmit`)
-2. **ESLint** auto-fixes style issues on changed code
-3. **Prettier** formats code and JSON/CSS/Markdown files
-4. **Jest** runs related tests in `--bail` mode (stops on first failure)
+1. **TypeScript type checking** for staged `.ts`/`.tsx` files via the frontend `tsconfig.json`
+2. **ESLint** auto-fixes staged JavaScript/TypeScript files
+3. **Prettier** formats staged JavaScript/TypeScript, JSON, CSS, and Markdown files
+4. **Jest** runs related frontend tests for staged files under `src/`
 
 If any check fails, fix the issues and re-stage before retrying the commit.
 
@@ -129,11 +133,12 @@ Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chor
 
 Runs before pushing to remote:
 
-1. Type checking for frontend and backend
-2. Full test suite (not just related tests)
-3. Frontend build validation
+1. Frontend lint and formatting checks
+2. Frontend tests with coverage
+3. Frontend build
+4. Frontend TypeScript check
 
-Prevents pushing code that doesn't compile or has failing tests.
+The hook does not run backend tests or a backend build.
 
 ### Bypass Hooks (Not Recommended)
 
