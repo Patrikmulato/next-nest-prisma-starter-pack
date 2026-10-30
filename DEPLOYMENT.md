@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide covers how to deploy Coach Patrik to Vercel.
+This guide covers how to deploy the starter application to Vercel.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ This guide covers how to deploy Coach Patrik to Vercel.
 
 1. Go to [vercel.com/new](https://vercel.com/new)
 2. Select "Import Git Repository"
-3. Search for and select your `coach-patrik` repository
+3. Search for and select your repository
 4. Click "Import"
 
 ### 2. Configure Build Settings (Vercel Dashboard)
@@ -140,8 +140,10 @@ Recommended:
 
 Set these to allow your frontend to call the backend:
 
-- `CORS_ORIGIN`: your frontend's Vercel URL (e.g. `https://coach-patrik.vercel.app`)
+- `CORS_ORIGIN`: your frontend's exact deployed origin (e.g. `https://your-frontend.example.com`)
 - `FRONTEND_URL`: same value
+
+Each preview deployment must also be explicitly allow-listed with one of these variables; unconfigured preview origins are rejected.
 
 ### Optional shared store (Upstash Redis)
 

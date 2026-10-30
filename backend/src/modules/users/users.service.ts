@@ -107,16 +107,6 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    const uploadedUsefulMapsCount = await this.prisma.usefulMap.count({
-      where: { uploadedById: id },
-    });
-
-    if (uploadedUsefulMapsCount > 0) {
-      throw new BadRequestException(
-        'Cannot delete user with uploaded useful maps. Delete those useful maps first.'
-      );
-    }
-
     await this.prisma.user.delete({ where: { id } });
     return { id, deleted: true };
   }

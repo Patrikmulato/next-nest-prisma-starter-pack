@@ -1,9 +1,9 @@
-# Coach Patrik — Copilot Instructions
+# Full-Stack Starter — Copilot Instructions
 
 ## Requirements
 
 - **Node.js 22+** (enforced via `package.json` engines, `.nvmrc`, `.node-version`)
-- pnpm 10.10.0+
+- **pnpm 11.22.0** (pinned by the root `package.json` `packageManager` field)
 
 ## Project
 
@@ -39,14 +39,14 @@ A pnpm workspace with:
 - Frontend tests: `pnpm test`
 - Frontend tests with coverage: `pnpm test:coverage`
 - Backend tests: `pnpm test:backend`
-- Backend hardening checks: `pnpm --filter coach-patrik-backend hardening:check`
+- Backend hardening checks: `pnpm --filter next-nest-prisma-starter-backend hardening:check`
 
 ## Git Hooks (Husky + lint-staged)
 
 Automated quality checks at key git stages:
 
-**Pre-Commit:** TypeScript type checking → ESLint auto-fix → Prettier format → Jest related tests
+**Pre-Commit:** Frontend TypeScript check → ESLint and Prettier on staged files → related frontend Jest tests for staged `src/` files
 **Commit Message:** Validates Conventional Commits format (e.g., `feat(scope): description`)
-**Pre-Push:** Full TypeScript checking, complete test suite, and frontend build
+**Pre-Push:** Frontend lint, format check, coverage tests, build, and TypeScript check. Backend tests/build are not included in CI or the pre-push hook.
 
 Fix any failures and re-stage before retrying.

@@ -41,13 +41,13 @@ jobs:
         run: pnpm typecheck
 
       - name: Type check backend
-        run: pnpm --filter coach-patrik-backend exec tsc --noEmit
+        run: pnpm --filter next-nest-prisma-starter-backend exec tsc --noEmit
 
       - name: Build backend
-        run: pnpm --filter coach-patrik-backend build
+        run: pnpm --filter next-nest-prisma-starter-backend build
 
       - name: Test backend
-        run: pnpm --filter coach-patrik-backend test
+        run: pnpm --filter next-nest-prisma-starter-backend test
 
       - name: Test frontend
         run: pnpm test

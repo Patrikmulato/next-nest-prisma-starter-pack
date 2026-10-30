@@ -1,4 +1,4 @@
-# Coach Patrik — Backend
+# Backend — Full-Stack Starter
 
 NestJS 11 REST API serving authentication and user management.
 Runs on port 3001 locally; deployed as Vercel serverless via `api/index.ts`.
@@ -67,8 +67,8 @@ PostgreSQL via Prisma. Single `User` model:
 Uses Node.js native test runner (`node:test`), not Jest.
 
 ```
-pnpm --filter coach-patrik-backend test
-pnpm --filter coach-patrik-backend hardening:check
+pnpm --filter next-nest-prisma-starter-backend test
+pnpm --filter next-nest-prisma-starter-backend hardening:check
 ```
 
 ## CORS
@@ -76,7 +76,7 @@ pnpm --filter coach-patrik-backend hardening:check
 Configured in `app-setup.ts` and `auth.controller.ts`.
 
 - Allows `http://localhost:3000`, `http://localhost:3001`, `CORS_ORIGIN` env var, `FRONTEND_URL` env var.
-- Also allows this project's Vercel preview-origin pattern (`coach-patrik-*`) only.
+- Deployment origins must be explicitly configured with `CORS_ORIGIN` or `FRONTEND_URL`; unconfigured preview origins are rejected.
 - Sensitive cookie-backed auth endpoints (`refresh`, `logout`) additionally enforce an allowed `Origin` check in the controller.
 
 ## Auth

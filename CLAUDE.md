@@ -3,7 +3,7 @@
 
 ## Quick Reference
 
-**Required:** Node.js 22+ (see `.nvmrc`, `.node-version`, or `package.json` engines field)
+**Required:** Node.js 22+ (CI uses Node 24) and pnpm 11.22.0 (pinned in the root `package.json`)
 
 - Next.js 16 App Router + TypeScript + Tailwind v4
 - NestJS 11 backend in `backend/` — source of truth for auth and user management
@@ -14,6 +14,6 @@
 - Build backend: `pnpm build:backend` | Dev backend: `pnpm dev:backend`
 - Frontend tests: `pnpm test` | Frontend tests with coverage: `pnpm test:coverage`
 - Backend tests: `pnpm test:backend`
-- **Pre-commit:** Type checking → ESLint → Prettier → Jest tests
+- **Pre-commit:** Frontend type check, staged-file ESLint/Prettier, and related frontend Jest tests
 - **Commit messages:** Must follow Conventional Commits (e.g., `feat(scope): description`)
-- **Pre-push:** Full type checking + all tests + frontend build validation
+- **Pre-push:** Frontend lint, format check, coverage tests, build, and typecheck; backend tests/build are not included

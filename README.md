@@ -13,7 +13,11 @@ Boilerplate for a full-stack web app with a Next.js frontend, NestJS backend, an
 ## Prerequisites
 
 - Node.js 22+ (see `.nvmrc` or `.node-version`)
-- pnpm 10.10.0+ (set in `package.json` `packageManager`)
+- pnpm 11.22.0 (pinned in `package.json` `packageManager`)
+
+## Database Setup
+
+This template expects a fresh database. If you are reusing a database from another project or an earlier schema history, create a clean database before running migrations.
 
 ## Run Locally
 
@@ -68,6 +72,6 @@ ADMIN_EMAILS=          # Comma-separated emails promoted to ADMIN role
 
 Husky runs on commit and push:
 
-- **Pre-commit:** type check → lint → format → related tests
+- **Pre-commit:** frontend type check → staged-file lint/format → related frontend tests for staged `src/` files
 - **Commit message:** must follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat(scope): description`)
-- **Pre-push:** full type check + all tests + frontend build
+- **Pre-push:** frontend lint, format check, coverage tests, build, and typecheck (backend tests/build are not included)
